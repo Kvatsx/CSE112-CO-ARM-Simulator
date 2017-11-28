@@ -314,7 +314,63 @@
 		}
 		else if ( f == 2 )
 		{
-			//TODO: need to implement for ( f == 2 )
+			// initialize rd variable to 0. This means False. If our condition is true then we will change it to 1.
+			rd = 0;
+			switch(opcode)
+			{
+				case 12:
+					// Greater than condition
+					if ( !N == 1 )
+					{
+						rd = 1;
+					}
+					break;
+				case 11:
+					// Less than condition
+					if ( N == 1 )
+					{
+						rd = 1;
+					}
+					break;
+				case 10:
+					// Greater than or equal to condition
+					if ( Z && !N == 1 )
+					{
+						rd = 1;
+					}
+					break;
+				case 13:
+					// Less than or equal to condition
+					if ( Z || N == 1 )
+					{
+						rd = 1;
+					}
+					break;
+				case 0:
+					// Equals
+					if ( Z == 1 )
+					{
+						rd = 1;
+					}
+					break;
+			}
+			// TODO: Need to change below if-else condition.
+			if(operand1==1)
+    			{
+      				unsigned int s = (operand2&0x800000)<<1, j;
+      				for(j=0;j<8; j++, s<<=1) 
+      				{
+      					operand2+=s;
+      				}
+      				operand2<<=2;
+      				//R[14] = R[15];
+      				R[15] += (signed int)operand2;
+      				printf("Updating PC to 0x%x\n", R[15]);
+    			}
+    			else
+    			{
+      				printf("Execute: No Execute operation for this instruction\n");
+    			}
 		}
 	}
 void Memory()
