@@ -14,6 +14,8 @@
 	// Register[15] = PC
 	// Instructions Memory
 	static char MEM[4000];
+	// Flags
+	static int N,Z,C,V;
 
 	// Intermediate Datapath.
 	static unsigned int rn;
@@ -64,6 +66,10 @@
 		}
 		rn = 0;
 		op2 = 0;
+		N = 0;
+		Z = 0;
+		C = 0;
+		V = 0;
 		Instruction_Type = -1;
 	}
 	void Run_ARMSim()
@@ -252,7 +258,63 @@
 	}
 	void Execute()
 	{
+		if ( f == 0 )
+		{
+			switch(opcode)
+			{
+				case 4:
+					rd = rn + op2;
+					printf("Execute: ADD %d and %d\n", rn, op2);
+					break;
+				case 2:
+					rd = rn - op2;
+					printf("Execute: SUB %d and %d\n", rn, op2);
+					break;
+				case 4:
+					rd = rn + op2;
+					printf("Execute: ADD %d and %d\n", rn, op2);
+					break;
+				case 1:
+					rd = rn ^ op2;
+					printf("Execute: XOR %d and %d\n", rn, op2);
+					break;
+				case 15:
+					rd = ~ op2;
+					printf("Execute: MNV %d\n", op2);
+					break;
+				case 13:
+					rd = rn;
+					printf("Execute: No Execute operation\n");
+					break;
+				case 10:
+					printf("Execute: CMP %d and %d\n", rn, op2);
+					N = 0;
+					Z = 0;
+					if ( rn - op2 < 0 )
+					{
+						N = 0;
+						printf("Execute: N changed to 1\n");
+					}
+					if ( rn == op2 )
+					{
+						Z = 1;
+						printf("Execute: Z changed to 1\n");
+					}
+				case 12:
+					rd = rn | op2;
+					printf("Execute: OR %d and %d\n", rn, op2);
+					break;
 
+			}
+		}
+		else if ( f == 1 )
+		{
+			printf("Execute: No Execute operation for this instruction\n");
+		}
+		else if ( f == 2 )
+		{
+			//TODO: need to implement for ( f == 2 )
+		}
 	}
 void Memory()
 {
