@@ -329,7 +329,38 @@ void Memory()
 
 	void Write_Back()
 	{
-
+		switch(f) {
+			case 2:
+				printf("WRITEBACK: No writeback operation required\n");
+				break;
+			case 1:
+				switch(opcode){
+					case 24:
+						*(updated_register) = R[rd];
+      					printf("WRITEBACK: write %d to memory array\n",*(updated_register));
+      					break;
+      				case 25:
+      					R[rd] = result;
+      					printf("WRITEBACK: write %d to R%d\n",result,rd);
+      					break;
+      				}
+      			break;
+      		case 0:
+      			switch(opcode){
+      				case 10:
+      					printf("WRITEBACK: No writeback operation required\n");
+      					break;
+      				default:
+      					R[rd] = result;
+      					printf("WRITEBACK: write %d to R%d\n",result,rd);
+      			}
+      			break;
+      		case 3:
+      			printf("EXIT:\n");
+    			swi_exit();
+    			break;
+		}
+		printf("\n");
 	}
 	void swi_exit() 
 	{
