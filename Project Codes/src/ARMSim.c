@@ -284,7 +284,7 @@
 					break;
 				case 13:
 					rd = rn;
-					printf("Execute: No Execute operation\n");
+					printf("Execute: No Execute operation for this instruction\n");
 					break;
 				case 10:
 					printf("Execute: CMP %d and %d\n", rn, op2);
@@ -300,6 +300,7 @@
 						Z = 1;
 						printf("Execute: Z changed to 1\n");
 					}
+					break;
 				case 12:
 					rd = rn | op2;
 					printf("Execute: OR %d and %d\n", rn, op2);
