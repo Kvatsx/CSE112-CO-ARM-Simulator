@@ -85,63 +85,63 @@
 	}
 	void Decode()
 	{
-	int a = (inst>>26);
+		unsigned int a = (inst>>26);
 	  a = (a<<30);
-	  int f = (a>>30);
-	  int cond = (inst>>28); // check
+		a = (a>>30);
+	  unsigned int f = a ;
+	  unsigned int cond = (inst>>28); // check
 	  if(f==0)
 	  {
-	    int b = (inst<<6);
+	    unsigned int b = (inst<<6);
 	    immediate = (b>>31);
-	    int c = (inst<<7);
+	    unsigned int c = (inst<<7);
 	    opcode = (c>>28);
-	    //int d = (inst<<13);
 	    rn = (inst>>16)&(0xF);
-	    int e = (inst<<16);
-	    rd = (e>>12);
+			unsigned int e = (inst<<16);
+			rd = (e>>28);
 	    if(immediate == 0)
 	    {
 	      op2 = ((inst)&(0xF));
 	      switch(opcode)
 	      {
 	        case 4:
-	          printf("DECODE: Operation is ADD, First Operand is R%d, Second Operand is R%d, Destination Register is R%d\n Read Registers: R%d = %d, R%d = %d", rn, op2, rd, rn, R[rn], op2, R[op2]);
+	          printf("DECODE: Operation is ADD, First Operand is R%d, Second Operand is R%d, Destination Register is R%d\n Read Registers: R%d = %d, R%d = %d\n", rn, op2, rd, rn, R[rn], op2, R[op2]);
 	          break;
 	        case 2:
-	          printf("DECODE: Operation is SUB, First Operand is R%d, Second Operand is R%d, Destination Register is R%d\n Read Registers: R%d = %d, R%d = %d", rn, op2, rd, rn, R[rn], op2, R[op2]);
+	          printf("DECODE: Operation is SUB, First Operand is R%d, Second Operand is R%d, Destination Register is R%d\n Read Registers: R%d = %d, R%d = %d\n", rn, op2, rd, rn, R[rn], op2, R[op2]);
 	          break;
 	        case 1:
-	          printf("DECODE: Operation is XOR, First Operand is R%d, Second Operand is R%d, Destination Register is R%d\n Read Registers: R%d = %d, R%d = %d", rn, op2, rd, rn, R[rn], op2, R[op2]);
+	          printf("DECODE: Operation is XOR, First Operand is R%d, Second Operand is R%d, Destination Register is R%d\n Read Registers: R%d = %d, R%d = %d\n", rn, op2, rd, rn, R[rn], op2, R[op2]);
 	          break;
 	        case 15:
-	          printf("DECODE: Operation is MNV, First Operand is R%d, Second Operand is R%d, Destination Register is R%d\n Read Registers: R%d = %d, R%d = %d", rn, op2, rd, rn, R[rn], op2, R[op2]);
+	          printf("DECODE: Operation is MNV, First Operand is R%d, Second Operand is R%d, Destination Register is R%d\n Read Registers: R%d = %d, R%d = %d\n", rn, op2, rd, rn, R[rn], op2, R[op2]);
 	          break;
 	        case 13:
-	          printf("DECODE: Operation is MOV, First Operand is R%d, Second Operand is R%d, Destination Register is R%d\n Read Registers: R%d = %d, R%d = %d", rn, op2, rd, rn, R[rn], op2, R[op2]);
+	          printf("DECODE: Operation is MOV, First Operand is R%d, Second Operand is R%d, Destination Register is R%d\n Read Registers: R%d = %d, R%d = %d\n", rn, op2, rd, rn, R[rn], op2, R[op2]);
 	          break;
 	        case 10:
-	          printf("DECODE: Operation is CMP, First Operand is R%d, Second Operand is R%d, Destination Register is R%d\n Read Registers: R%d = %d, R%d = %d", rn, op2, rd, rn, R[rn], op2, R[op2]);
+	          printf("DECODE: Operation is CMP, First Operand is R%d, Second Operand is R%d, Destination Register is R%d\n Read Registers: R%d = %d, R%d = %d\n", rn, op2, rd, rn, R[rn], op2, R[op2]);
 	          break;
 	        case 5:
-	          printf("DECODE: Operation is ADC, First Operand is R%d, Second Operand is R%d, Destination Register is R%d\n Read Registers: R%d = %d, R%d = %d", rn, op2, rd, rn, R[rn], op2, R[op2]);
+	          printf("DECODE: Operation is ADC, First Operand is R%d, Second Operand is R%d, Destination Register is R%d\n Read Registers: R%d = %d, R%d = %d\n", rn, op2, rd, rn, R[rn], op2, R[op2]);
 	          break;
 	        case 12:
-	          printf("DECODE: Operation is ORR, First Operand is R%d, Second Operand is R%d, Destination Register is R%d\n Read Registers: R%d = %d, R%d = %d", rn, op2, rd, rn, R[rn], op2, R[op2]);
+	          printf("DECODE: Operation is ORR, First Operand is R%d, Second Operand is R%d, Destination Register is R%d\n Read Registers: R%d = %d, R%d = %d\n", rn, op2, rd, rn, R[rn], op2, R[op2]);
 	          break;
 	        case 0:
-	          printf("DECODE: Operation is AND, First Operand is R%d, Second Operand is R%d, Destination Register is R%d\n Read Registers: R%d = %d, R%d = %d", rn, op2, rd, rn, R[rn], op2, R[op2]);
+	          printf("DECODE: Operation is AND, First Operand is R%d, Second Operand is R%d, Destination Register is R%d\n Read Registers: R%d = %d, R%d = %d\n", rn, op2, rd, rn, R[rn], op2, R[op2]);
 	          break;
 	        case 3:
-	          printf("DECODE: Operation is RSB, First Operand is R%d, Second Operand is R%d, Destination Register is R%d\n Read Registers: R%d = %d, R%d = %d", rn, op2, rd, rn, R[rn], op2, R[op2]);
+	          printf("DECODE: Operation is RSB, First Operand is R%d, Second Operand is R%d, Destination Register is R%d\n Read Registers: R%d = %d, R%d = %d\n", rn, op2, rd, rn, R[rn], op2, R[op2]);
 	          break;
 	        case 6:
-	          printf("DECODE: Operation is SBC, First Operand is R%d, Second Operand is R%d, Destination Register is R%d\n Read Registers: R%d = %d, R%d = %d", rn, op2, rd, rn, R[rn], op2, R[op2]);
+	          printf("DECODE: Operation is SBC, First Operand is R%d, Second Operand is R%d, Destination Register is R%d\n Read Registers: R%d = %d, R%d = %d\n", rn, op2, rd, rn, R[rn], op2, R[op2]);
 	          break;
 	        case 7:
-	          printf("DECODE: Operation is SRC, First Operand is R%d, Second Operand is R%d, Destination Register is R%d\n Read Registers: R%d = %d, R%d = %d", rn, op2, rd, rn, R[rn], op2, R[op2]);
+	          printf("DECODE: Operation is SRC, First Operand is R%d, Second Operand is R%d, Destination Register is R%d\n Read Registers: R%d = %d, R%d = %d\n", rn, op2, rd, rn, R[rn], op2, R[op2]);
 	          break;
 	        case 14:
-	          printf("DECODE: Operation is BIC, First Operand is R%d, Second Operand is R%d, Destination Register is R%d\n Read Registers: R%d = %d, R%d = %d", rn, op2, rd, rn, R[rn], op2, R[op2]);
+	          printf("DECODE: Operation is BIC, First Operand is R%d, Second Operand is R%d, Destination Register is R%d\n Read Registers: R%d = %d, R%d = %d\n", rn, op2, rd, rn, R[rn], op2, R[op2]);
 	          break;
 	      }
 	  }
@@ -151,62 +151,104 @@
 	        switch(opcode)
 	        {
 	          case 4:
-	            printf("DECODE: Operation is ADD, First Operand is R%d, (immediate) second Operand is R%d, Destination Register is R%d\n Read Registers: R%d = %d", rn, op2, rd, rn, R[rn]);
+	            printf("DECODE: Operation is ADD, First Operand is R%d, (immediate) second Operand is R%d, Destination Register is R%d\n Read Registers: R%d = %d\n", rn, op2, rd, rn, R[rn]);
 	            break;
 	          case 2:
-	            printf("DECODE: Operation is SUB, First Operand is R%d, (immediate) second  Operand is R%d, Destination Register is R%d\n Read Registers: R%d = %d", rn, op2, rd, rn, R[rn]);
+	            printf("DECODE: Operation is SUB, First Operand is R%d, (immediate) second  Operand is R%d, Destination Register is R%d\n Read Registers: R%d = %d\n", rn, op2, rd, rn, R[rn]);
 	            break;
 	          case 1:
-	            printf("DECODE: Operation is XOR, First Operand is R%d, (immediate) second Operand is R%d, Destination Register is R%d\n Read Registers: R%d = %d", rn, op2, rd, rn, R[rn]);
+	            printf("DECODE: Operation is XOR, First Operand is R%d, (immediate) second Operand is R%d, Destination Register is R%d\n Read Registers: R%d = %d\n", rn, op2, rd, rn, R[rn]);
 	            break;
 	          case 15:
-	            printf("DECODE: Operation is MNV, First Operand is R%d, (immediate) second Operand is R%d, Destination Register is R%d\n Read Registers: R%d = %d", rn, op2, rd, rn, R[rn]);
+	            printf("DECODE: Operation is MNV, First Operand is R%d, (immediate) second Operand is R%d, Destination Register is R%d\n Read Registers: R%d = %d\n", rn, op2, rd, rn, R[rn]);
 	            break;
 	          case 13:
-	            printf("DECODE: Operation is MOV, First Operand is R%d, (immediate) second Operand is R%d, Destination Register is R%d\n Read Registers: R%d = %d", rn, op2, rd, rn, R[rn]);
+	            printf("DECODE: Operation is MOV, First Operand is R%d, (immediate) second Operand is R%d, Destination Register is R%d\n Read Registers: R%d = %d\n", rn, op2, rd, rn, R[rn]);
 	            break;
 	          case 10:
-	            printf("DECODE: Operation is CMP, First Operand is R%d, (immediate) second Operand is R%d, Destination Register is R%d\n Read Registers: R%d = %d", rn, op2, rd, rn, R[rn]);
+	            printf("DECODE: Operation is CMP, First Operand is R%d, (immediate) second Operand is R%d, Destination Register is R%d\n Read Registers: R%d = %d\n", rn, op2, rd, rn, R[rn]);
 	            break;
 	          case 5:
-	            printf("DECODE: Operation is ADC, First Operand is R%d, (immediate) second Operand is R%d, Destination Register is R%d\n Read Registers: R%d = %d", rn, op2, rd, rn, R[rn]);
+	            printf("DECODE: Operation is ADC, First Operand is R%d, (immediate) second Operand is R%d, Destination Register is R%d\n Read Registers: R%d = %d\n", rn, op2, rd, rn, R[rn]);
 	            break;
 	          case 12:
-	            printf("DECODE: Operation is ORR, First Operand is R%d, (immediate) second Operand is R%d, Destination Register is R%d\n Read Registers: R%d = %d", rn, op2, rd, rn, R[rn]);
+	            printf("DECODE: Operation is ORR, First Operand is R%d, (immediate) second Operand is R%d, Destination Register is R%d\n Read Registers: R%d = %d\n", rn, op2, rd, rn, R[rn]);
 	            break;
 	          case 0:
-	            printf("DECODE: Operation is AND, First Operand is R%d, (immediate) second Operand is R%d, Destination Register is R%d\n Read Registers: R%d = %d", rn, op2, rd, rn, R[rn]);
+	            printf("DECODE: Operation is AND, First Operand is R%d, (immediate) second Operand is R%d, Destination Register is R%d\n Read Registers: R%d = %d\n", rn, op2, rd, rn, R[rn]);
 	            break;
 	          case 3:
-	            printf("DECODE: Operation is RSB, First Operand is R%d, (immediate) second Operand is R%d, Destination Register is R%d\n Read Registers: R%d = %d", rn, op2, rd, rn, R[rn]);
+	            printf("DECODE: Operation is RSB, First Operand is R%d, (immediate) second Operand is R%d, Destination Register is R%d\n Read Registers: R%d = %d\n", rn, op2, rd, rn, R[rn]);
 	            break;
 	          case 6:
-	            printf("DECODE: Operation is SBC, First Operand is R%d, (immediate) Second Operand is R%d, Destination Register is R%d\n Read Registers: R%d = %d", rn, op2, rd, rn, R[rn]);
+	            printf("DECODE: Operation is SBC, First Operand is R%d, (immediate) Second Operand is R%d, Destination Register is R%d\n Read Registers: R%d = %d\n", rn, op2, rd, rn, R[rn]);
 	            break;
 	          case 7:
-	            printf("DECODE: Operation is SRC, First Operand is R%d, (immediate) Second Operand is R%d, Destination Register is R%d\n Read Registers: R%d = %d", rn, op2, rd, rn, R[rn]);
+	            printf("DECODE: Operation is SRC, First Operand is R%d, (immediate) Second Operand is R%d, Destination Register is R%d\n Read Registers: R%d = %d\n", rn, op2, rd, rn, R[rn]);
 	            break;
 	          case 14:
-	            printf("DECODE: Operation is BIC, First Operand is R%d, (immediate) Second Operand is R%d, Destination Register is R%d\n Read Registers: R%d = %d", rn, op2, rd, rn, R[rn]);
+	            printf("DECODE: Operation is BIC, First Operand is R%d, (immediate) Second Operand is R%d, Destination Register is R%d\n Read Registers: R%d = %d\n", rn, op2, rd, rn, R[rn]);
 	            break;
 	        }
 	      }
 	    }
 
-	  
+		// ldr str - Data Transfer
 	  else if(f==1)
 	  {
-
+			unsigned int a = (inst<<6);
+			opcode = (a>>26);
+			if(opcode == 25)
+			{
+				rn = (inst>>16)&(0xF);
+				unsigned int e = (inst<<16);
+				rd = (e>>28);
+				op2 = ((inst)&(0xFFF));
+				printf("DECODE: Operation is LDR, Base Register is R%d, Offset is %d, Destination Register is R%d\n",rn, op2, rd);
+			}
+			else if(opcode == 24)
+			{
+				rn = (inst>>16)&(0xF);
+				unsigned int e = (inst<<16);
+				rd = (e>>28);
+				op2 = ((inst)&(0xFFF));
+				printf("DECODE: Operation is STR, Base Register is R%d, Offset is %d, Destination Register is R%d\n",rn, op2, rd);
+			}
 	  }
+
+		// branch
 	  else if(f==2)
 	  {
-
+			unsigned int a = (inst<<6);
+			opcode = (a>>30);
+			offset = (inst&(0xFFFFFF));
+			if(opcode == 2)
+			{
+				switch (cond) {
+					case 0:
+						printf("DECODE: Operation is Branch Equals\n");
+						break;
+					case 13:
+						printf("DECODE: Operation is Branch less than Equals\n");
+						break;
+					case 10:
+						printf("DECODE: Operation is Branch greater than Equals\n");
+						break;
+					case 1:
+						printf("DECODE: Operation is Branch Not Equals\n");
+						break;
+					case 14:
+						printf("DECODE: Operation is Branch and Link\n");
+						break;
+					case 12:
+						printf("DECODE: Operation is Branch Greater Than\n");
+						break;
+					case 11:
+						printf("DECODE: Operation is Branch Less Than\n");
+						break;
+				}
+			}
 	  }
-	  else
-	  {
-
-	  }
-
 	}
 	void Execute()
 	{
