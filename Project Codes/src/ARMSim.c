@@ -254,10 +254,79 @@
 	{
 
 	}
-	void Memory()
-	{
+void Memory()
+{
+  if(cond == 14)
+  {
+    if(opcode == 25)
+    {
+      switch (rn) {
+        unsigned int a = op2/4;
+        case 15:
+          printf("MEMORY: Load %d from memory\n",R15[a]);
+          break;
+        case 14:
+          printf("MEMORY: Load %d from memory\n",R14[a]);
+          break;
+        case 13:
+          printf("MEMORY: Load %d from memory\n",R13[a]);
+          break;
+        case 12:
+          printf("MEMORY: Load %d from memory\n",R12[a]);
+          break;
+        case 11:
+          printf("MEMORY: Load %d from memory\n",R11[a]);
+          break;
+        case 10:
+          printf("MEMORY: Load %d from memory\n",R10[a]);
+          break;
+        case 9:
+          printf("MEMORY: Load %d from memory\n",R9[a]);
+          break;
+        case 8:
+          printf("MEMORY: Load %d from memory\n",R8[a]);
+          break;
+        case 7:
+          printf("MEMORY: Load %d from memory\n",R7[a]);
+          break;
+        case 6:
+          printf("MEMORY: Load %d from memory\n",R6[a]);
+          break;
+        case 5:
+          printf("MEMORY: Load %d from memory\n",R5[a]);
+          break;
+        case 4:
+          printf("MEMORY: Load %d from memory\n",R4[a]);
+          break;
+        case 3:
+          printf("MEMORY: Load %d from memory\n",R3[a]);
+          break;
+        case 2:
+          printf("MEMORY: Load %d from memory\n",R2[a]);
+          break;
+        case 1:
+          printf("MEMORY: Load %d from memory\n",R1[a]);
+          break;
+        case 0:
+          printf("MEMORY: Load %d from memory\n",R0[a]);
+          break;
+      }
+    }
+    else if(opcode == 25)
+    {
+      printf("MEMORY: Store %d in memory\n", rd);
+    }
+    else
+    {
+      printf("MEMORY: No memory operation\n");
+    }
+  }
+  else
+  {
+    printf("MEMORY: No memory operation\n");
+  }
+}
 
-	}
 	void Write_Back()
 	{
 
