@@ -571,7 +571,7 @@ void Memory()
 		}
 		else if(opcode == 24)
 		{
-			printf("MEMORY: Store %d in memory\n", rd);
+			printf("MEMORY: Store in R%d in memory\n", rd);
 		}
 		else
 		{
