@@ -660,7 +660,7 @@ void write_word(char *mem, unsigned int address, unsigned int data)
 	*data_p = data;
 }
 
-//reads the lines from the file
+//extracts the instruction to be executed i.e. where the program counter is currently
 int read_word(char *mem, unsigned int address)
 {
 	int *data;
