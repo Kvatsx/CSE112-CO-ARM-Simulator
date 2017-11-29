@@ -8,11 +8,8 @@ Developer's Name: Kaustav Vats, Shravika Mittal, Meghna Gupta.
 
 // Registers
 static int R[16];
-// Register[15] = PC
 // Instructions Memory
 static char MEM[4000];
-// Flags
-static int N,Z,C,V;
 
 // Intermediate Datapath.
 static unsigned int rn;
