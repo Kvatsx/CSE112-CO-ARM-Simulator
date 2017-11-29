@@ -8,6 +8,7 @@ Developer's Name: Kaustav Vats, Shravika Mittal, Meghna Gupta.
 
 // Registers
 static int R[16];
+// Register[15] = PC
 // Instructions Memory
 static char MEM[4000];
 
@@ -20,16 +21,19 @@ static unsigned int immediate;
 static int Instruction_Type;
 static unsigned int opcode;
 static int Binary[32];
+//2-D Matrix for storing values corresponsing to all register values 
 static unsigned int R_All[16][1024];
 unsigned int result;
 unsigned int *updated_register;
 static int offset;
 static unsigned int f;
+//Conditional flags
 static int carry;
 static int negate;
 static int equate;
 static unsigned int cond;
 
+//function headings defined
 void reset_proc();
 void load_program_memory(char *file_name);
 int read_word(char *mem, unsigned int address);
@@ -43,8 +47,10 @@ void swi_exit();
 void write_word(char *mem, unsigned int address, unsigned int data);
 void write_data_memory();
 int read_word(char *mem, unsigned int address);
+void print_Decode_Imm1(char *s, unsigned int a, unsigned int b, unsigned int c, unsigned int d, int e);
+void print_Decode(char *s, unsigned int a, unsigned int b, unsigned int c, unsigned int d, int e, unsigned int f, int g);
 
-
+//Main method of the program. This function calls for the starting of the ARM Simulator and then loads the input file and starts the simulation
 int main()
 {
 	reset_proc();
@@ -52,17 +58,20 @@ int main()
 	Run_ARMSim();
 	return 0;
 }
-// Resets all Arrays & Variables to 0.
+// Method that resets/refreshes the value of all arrays, variables and flags
 void reset_proc()
 {
+	//refreshing the register array
 	for ( int i=0; i<16; i++ )
 	{
 		R[i] = 0;
 	}
+	//refreshing the MEM array
 	for ( int i=0; i<4000; i++ )
 	{
 		MEM[i] = '0';
 	}
+	//refreshing the Binary array
 	for ( int i=0; i<32; i++ )
 	{
 		Binary[i] = 0;
@@ -70,13 +79,16 @@ void reset_proc()
 	rn = 0;
 	op2 = 0;
 	Instruction_Type = -1;
+	//refreshing the flag values
 	negate = 0;
 	equate = 0;
 	carry = 0;
 }
+
+//Method that calls all the stage-wise functions for the Simulation.
 void Run_ARMSim()
 {
-	while( 1 )
+	while(1)
 	{
 		Fetch();
 		Decode();
@@ -85,21 +97,16 @@ void Run_ARMSim()
 		Write_Back();
 	}
 }
-void print_Decode_Imm1(char *s, unsigned int a, unsigned int b, unsigned int c, unsigned int d, int e)
-{
-	printf("DECODE: Operation is %s, First Operand is R%d, (immediate) second Operand is %d, Destination Register is R%d\n Read Registers: R%d = %d\n", s, a, b, c, d, e);
-}
 
-void print_Decode(char *s, unsigned int a, unsigned int b, unsigned int c, unsigned int d, int e, unsigned int f, int g)
-{
-	printf("DECODE: Operation is %s, First Operand is R%d, Second Operand is R%d, Destination Register is R%d\n Read Registers: R%d = %d, R%d = %d\n", s, a, b, c, d, e, f, g);
-}
+//Fetch Method: This gets the particular instruction by adding the program counter to the base address of memoery array.
 void Fetch()
 {
 	inst = read_word(MEM, R[15]);
 	printf("Fetch: Instruction 0x%x from Address 0x%x\n", inst, R[15]);
 	R[15] = R[15] + 4;
 }
+
+//Decode Method: This function extracts the operator from the opcode and the respective operands to perform the operation on.
 void Decode()
 {
 	unsigned int a = (inst>>26);
@@ -107,18 +114,28 @@ void Decode()
 	a = (a>>30);
 	f = a ;
 	cond = (inst>>28); // check
+	
+	//Arithmetic Logical Instructions
 	if(f==0)
 	{
 		unsigned int b = (inst<<6);
 		immediate = (b>>31);
 		unsigned int c = (inst<<7);
+		//opcode
 		opcode = (c>>28);
+		//operand1
 		rn = (inst>>16)&(0xF);
 		unsigned int e = (inst<<16);
+		//destination register
 		rd = (e>>28);
+
+		//Instructions with immediate = 0
 		if(immediate == 0)
 		{
+			//operand2
 			op2 = ((inst)&(0xF));
+
+			//switch case to identify the type of the instruction from the opcode
 			switch(opcode)
 			{
 				case 4:
@@ -162,9 +179,14 @@ void Decode()
 				break;
 			}
 		}
+
+		//Instruction with immediate = 1
 		else if(immediate == 1)
 		{
+			//operand2
 			op2 = ((inst)&(0xFF));
+
+			//switch case to identify the type of the instruction
 			switch(opcode)
 			{
 				case 4:
@@ -210,11 +232,13 @@ void Decode()
 		}
 	}
 
-	// ldr str - Data Transfer
+	//Data Transfer Instructions
 	else if(f==1)
 	{
 		unsigned int a = (inst<<6);
 		opcode = (a>>26);
+
+		//LDR
 		if(opcode == 25)
 		{
 			rn = (inst>>16)&(0xF);
@@ -223,6 +247,8 @@ void Decode()
 			op2 = ((inst)&(0xFFF));
 			printf("DECODE: Operation is LDR, Base Register is R%d, Offset is %d, Destination Register is R%d\n",rn, op2, rd);
 		}
+
+		//STR
 		else if(opcode == 24)
 		{
 			rn = (inst>>16)&(0xF);
@@ -233,7 +259,7 @@ void Decode()
 		}
 	}
 
-	// branch
+	//Branch Instructions
 	else if(f==2)
 	{
 		unsigned int a = (inst<<6);
@@ -241,6 +267,7 @@ void Decode()
 		offset = (inst&(0xFFFFFF));
 		if(opcode == 2)
 		{
+			//switch case to identify the specific type of the instruction
 			switch (cond) {
 				case 0:
 				printf("DECODE: Operation is Branch Equals\n");
@@ -267,14 +294,20 @@ void Decode()
 		}
 	}
 }
+
+//Execute Method: This function performs the operation according to the opcode and operands extracted.
 void Execute()
 {
 	updated_register = 0;
 	result = 0;
+
+	//Arithmetic Logical Instructions
 	if(f == 0)
 	{
+		//when immediate is 0
 		if(immediate == 0)
 		{
+			//switch case to determine the type of instructions
 			switch (opcode) {
 				case 4:
 				result = R[rn] + R[op2];
@@ -346,8 +379,11 @@ void Execute()
 				break;
 			}
 		}
+
+		//when immediate = 1
 		else  if(immediate == 1)
 		{
+			//switch case to determine the type of instruction from the opcode
 			switch (opcode) {
 				case 4:
 				result = R[rn] + op2;
@@ -420,8 +456,11 @@ void Execute()
 			}
 		}
 	}
+
+	//Data Transfer Instructions
 	else if(f == 1)
 	{
+		//LDR
 		if(opcode == 25)
 		{
 			int index = (op2/4); // else would store at 4, 8, 12, ...
@@ -434,6 +473,8 @@ void Execute()
 				}
 			}
 		}
+
+		//STR
 		else if(opcode == 24)
 		{
 			int index = (op2/4); // else would store at 4, 8, 12, ...
@@ -447,9 +488,13 @@ void Execute()
 			}
 		}
 	}
+
+	//Branch Instructions
 	else if(f == 2)
 	{
 		signed int extended_number;
+		
+		//getting the 23rd bit
 		unsigned int sign_bit = (offset>>23);
 		if(sign_bit == 0)
 		{
@@ -457,10 +502,13 @@ void Execute()
 		}
 		else
 		{
+			//sign extending the 24 bits offset to 32 bits
 			extended_number = ((0xff000000 | offset)*4);
 		}
+
 		if(opcode == 2)
 		{
+			//switch case to determine the type of instruction and also updates the Program Counter accordingly
 			switch (cond) {
 				case 0:
 				printf("EXECUTE: Branch Equals offset is: 0x%x\n",offset);
@@ -514,6 +562,7 @@ void Execute()
 	}
 }
 
+//Memory: Instructions that require memory are nvolved in this stage, and are able to use memory via this method
 void Memory()
 {
 	if(cond == 14)
@@ -544,6 +593,7 @@ void Memory()
 	}
 }
 
+//Writeback: All the instructions write their result into the register file.
 void Write_Back()
 {
 	switch(f) {
@@ -579,11 +629,15 @@ void Write_Back()
 	}
 	printf("\n");
 }
+
+//method that exits the program
 void swi_exit()
 {
 	write_data_memory();
 	exit(0);
 }
+
+//method that loads the input.mem file
 void load_program_memory(char *file_name)
 {
 	FILE *fp;
@@ -600,6 +654,7 @@ void load_program_memory(char *file_name)
 	}
 	fclose(fp);
 }
+
 void write_word(char *mem, unsigned int address, unsigned int data)
 {
 	int *data_p;
@@ -625,9 +680,23 @@ void write_data_memory()
 	}
 	fclose(fp);
 }
+
+//reads the lines from the file
 int read_word(char *mem, unsigned int address)
 {
 	int *data;
 	data =  (int*) (mem + address);
 	return *data;
+}
+
+//prints the messages for the decode with immediate = 1 operations
+void print_Decode_Imm1(char *s, unsigned int a, unsigned int b, unsigned int c, unsigned int d, int e)
+{
+	printf("DECODE: Operation is %s, First Operand is R%d, (immediate) second Operand is %d, Destination Register is R%d\n Read Registers: R%d = %d\n", s, a, b, c, d, e);
+}
+
+//prints the messages for the decode with immediate = 0 operations
+void print_Decode(char *s, unsigned int a, unsigned int b, unsigned int c, unsigned int d, int e, unsigned int f, int g)
+{
+	printf("DECODE: Operation is %s, First Operand is R%d, Second Operand is R%d, Destination Register is R%d\n Read Registers: R%d = %d, R%d = %d\n", s, a, b, c, d, e, f, g);
 }
