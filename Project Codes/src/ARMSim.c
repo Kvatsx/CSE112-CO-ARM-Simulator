@@ -18,9 +18,7 @@ static unsigned int op2;
 static unsigned int inst;
 static unsigned int rd;
 static unsigned int immediate;
-static int Instruction_Type;
 static unsigned int opcode;
-static int Binary[32];
 //2-D Matrix for storing values corresponsing to all register values
 static unsigned int R_All[16][1024];
 unsigned int result;
@@ -71,14 +69,8 @@ void reset_proc()
 	{
 		MEM[i] = '0';
 	}
-	//refreshing the Binary array
-	for ( int i=0; i<32; i++ )
-	{
-		Binary[i] = 0;
-	}
 	rn = 0;
 	op2 = 0;
-	Instruction_Type = -1;
 	//refreshing the flag values
 	negate = 0;
 	equate = 0;
@@ -519,14 +511,14 @@ void Execute()
 				break;
 				case 13:
 				printf("EXECUTE: Branch Less Than Equals offset is: 0x%x\n",offset);
-				if(negate == 1 || equate == 1)
+				if(equate == 1 || negate == 1)
 				{
 					R[15] = R[15] + 4 + extended_number;
 				}
 				break;
 				case 10:
 				printf("EXECUTE: Branch Greater Than Equals is: 0x%x\n",offset);
-				if(negate == 0 || equate == 1)
+				if(equate == 1 || negate == 0)
 				{
 					R[15] = R[15] + 4 + extended_number;
 				}
@@ -660,7 +652,7 @@ void write_word(char *mem, unsigned int address, unsigned int data)
 	*data_p = data;
 }
 
-//extracts the instruction to be executed i.e. where the program counter is currently
+//reads the lines from the file
 int read_word(char *mem, unsigned int address)
 {
 	int *data;
