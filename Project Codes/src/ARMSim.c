@@ -21,7 +21,7 @@ static unsigned int immediate;
 static int Instruction_Type;
 static unsigned int opcode;
 static int Binary[32];
-//2-D Matrix for storing values corresponsing to all register values 
+//2-D Matrix for storing values corresponsing to all register values
 static unsigned int R_All[16][1024];
 unsigned int result;
 unsigned int *updated_register;
@@ -45,7 +45,7 @@ void Memory();
 void Write_Back();
 void swi_exit();
 void write_word(char *mem, unsigned int address, unsigned int data);
-void write_data_memory();
+//void write_data_memory();
 int read_word(char *mem, unsigned int address);
 void print_Decode_Imm1(char *s, unsigned int a, unsigned int b, unsigned int c, unsigned int d, int e);
 void print_Decode(char *s, unsigned int a, unsigned int b, unsigned int c, unsigned int d, int e, unsigned int f, int g);
@@ -114,7 +114,7 @@ void Decode()
 	a = (a>>30);
 	f = a ;
 	cond = (inst>>28); // check
-	
+
 	//Arithmetic Logical Instructions
 	if(f==0)
 	{
@@ -493,7 +493,7 @@ void Execute()
 	else if(f == 2)
 	{
 		signed int extended_number;
-		
+
 		//getting the 23rd bit
 		unsigned int sign_bit = (offset>>23);
 		if(sign_bit == 0)
@@ -536,7 +536,6 @@ void Execute()
 				if(equate != 1)
 				{
 					R[15] = R[15] + 4 + extended_number;
-					printf("dgkrtkuh");
 				}
 				break;
 				case 14:
@@ -633,7 +632,6 @@ void Write_Back()
 //method that exits the program
 void swi_exit()
 {
-	write_data_memory();
 	exit(0);
 }
 
@@ -660,25 +658,6 @@ void write_word(char *mem, unsigned int address, unsigned int data)
 	int *data_p;
 	data_p = (int*) (mem + address);
 	*data_p = data;
-}
-
-//writes the data memory in "data_out.mem" file
-void write_data_memory()
-{
-	FILE *fp;
-	unsigned int i;
-	fp = fopen("data_out.mem", "w");
-	if(fp == NULL)
-	{
-		printf("Error opening dataout.mem file for writing\n");
-		return;
-	}
-
-	for(i=0; i < 4000; i = i+4)
-	{
-		fprintf(fp, "%x %x\n", i, read_word(MEM, i));
-	}
-	fclose(fp);
 }
 
 //reads the lines from the file
