@@ -1,4 +1,4 @@
-	/*
+/*
 	The project is developed as part of Computer Architecture class
 	Project Name: Functional Simulator for subset of ARM Processor
 	Developer's Name: Kaustav Vats, Shravika Mittal, Meghna Gupta.
@@ -88,6 +88,10 @@
 			Write_Back();
 		}
 	}
+	void print_Decode_Imm1(char *s, unsigned int a, unsigned int b, unsigned int c, unsigned int d, int e)
+	{
+		printf("DECODE: Operation is %s, First Operand is R%d, (immediate) second Operand is %d, Destination Register is R%d\n Read Registers: R%d = %d\n", s, a, b, c, d, e);
+	}
 	void Fetch()
 	{
 		inst = read_word(MEM, R[15]);
@@ -162,43 +166,42 @@
 	        switch(opcode)
 	        {
 	          case 4:
-	            printf("DECODE: Operation is ADD, First Operand is R%d, (immediate) second Operand is R%d, Destination Register is R%d\n Read Registers: R%d = %d\n", rn, op2, rd, rn, R[rn]);
-	            break;
+							print_Decode_Imm1("ADD", rn, op2, rd, rn, R[rn]);
 	          case 2:
-	            printf("DECODE: Operation is SUB, First Operand is R%d, (immediate) second  Operand is R%d, Destination Register is R%d\n Read Registers: R%d = %d\n", rn, op2, rd, rn, R[rn]);
+							print_Decode_Imm1("SUB", rn, op2, rd, rn, R[rn]);
 	            break;
 	          case 1:
-	            printf("DECODE: Operation is XOR, First Operand is R%d, (immediate) second Operand is R%d, Destination Register is R%d\n Read Registers: R%d = %d\n", rn, op2, rd, rn, R[rn]);
+							print_Decode_Imm1("XOR", rn, op2, rd, rn, R[rn]);
 	            break;
 	          case 15:
-	            printf("DECODE: Operation is MNV, First Operand is R%d, (immediate) second Operand is R%d, Destination Register is R%d\n Read Registers: R%d = %d\n", rn, op2, rd, rn, R[rn]);
+							print_Decode_Imm1("MNV", rn, op2, rd, rn, R[rn]);
 	            break;
 	          case 13:
-	            printf("DECODE: Operation is MOV, First Operand is R%d, (immediate) second Operand is R%d, Destination Register is R%d\n Read Registers: R%d = %d\n", rn, op2, rd, rn, R[rn]);
+							print_Decode_Imm1("MOV", rn, op2, rd, rn, R[rn]);
 	            break;
 	          case 10:
-	            printf("DECODE: Operation is CMP, First Operand is R%d, (immediate) second Operand is R%d, Destination Register is R%d\n Read Registers: R%d = %d\n", rn, op2, rd, rn, R[rn]);
+							print_Decode_Imm1("CMP", rn, op2, rd, rn, R[rn]);
 	            break;
 	          case 5:
-	            printf("DECODE: Operation is ADC, First Operand is R%d, (immediate) second Operand is R%d, Destination Register is R%d\n Read Registers: R%d = %d\n", rn, op2, rd, rn, R[rn]);
+							print_Decode_Imm1("ADC", rn, op2, rd, rn, R[rn]);
 	            break;
 	          case 12:
-	            printf("DECODE: Operation is ORR, First Operand is R%d, (immediate) second Operand is R%d, Destination Register is R%d\n Read Registers: R%d = %d\n", rn, op2, rd, rn, R[rn]);
+							print_Decode_Imm1("ORR", rn, op2, rd, rn, R[rn]);
 	            break;
 	          case 0:
-	            printf("DECODE: Operation is AND, First Operand is R%d, (immediate) second Operand is R%d, Destination Register is R%d\n Read Registers: R%d = %d\n", rn, op2, rd, rn, R[rn]);
+							print_Decode_Imm1("AND", rn, op2, rd, rn, R[rn]);
 	            break;
 	          case 3:
-	            printf("DECODE: Operation is RSB, First Operand is R%d, (immediate) second Operand is R%d, Destination Register is R%d\n Read Registers: R%d = %d\n", rn, op2, rd, rn, R[rn]);
+							print_Decode_Imm1("RSB", rn, op2, rd, rn, R[rn]);
 	            break;
 	          case 6:
-	            printf("DECODE: Operation is SBC, First Operand is R%d, (immediate) Second Operand is R%d, Destination Register is R%d\n Read Registers: R%d = %d\n", rn, op2, rd, rn, R[rn]);
+							print_Decode_Imm1("SBC", rn, op2, rd, rn, R[rn]);
 	            break;
 	          case 7:
-	            printf("DECODE: Operation is SRC, First Operand is R%d, (immediate) Second Operand is R%d, Destination Register is R%d\n Read Registers: R%d = %d\n", rn, op2, rd, rn, R[rn]);
+							print_Decode_Imm1("SRC", rn, op2, rd, rn, R[rn]);
 	            break;
 	          case 14:
-	            printf("DECODE: Operation is BIC, First Operand is R%d, (immediate) Second Operand is R%d, Destination Register is R%d\n Read Registers: R%d = %d\n", rn, op2, rd, rn, R[rn]);
+							print_Decode_Imm1("BIC", rn, op2, rd, rn, R[rn]);
 	            break;
 	        }
 	      }
