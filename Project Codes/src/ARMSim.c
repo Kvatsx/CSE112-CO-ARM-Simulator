@@ -19,6 +19,7 @@ static unsigned int inst;
 static unsigned int rd;
 static unsigned int immediate;
 static unsigned int opcode;
+static unsigned int read_help;
 //2-D Matrix for storing values corresponsing to all register values
 static unsigned int R_All[16][1024];
 unsigned int result;
@@ -106,6 +107,8 @@ void Decode()
 	a = (a>>30);
 	f = a ;
 	cond = (inst>>28); // check
+	unsigned int shift = (inst<<24);
+	read_help = (shift>>24);
 
 	//Arithmetic Logical Instructions
 	if(f==0)
@@ -284,6 +287,11 @@ void Decode()
 				break;
 			}
 		}
+	}
+
+	else if(f == 3 && read_help == 108)
+	{
+		printf("DECODE: Operation is read integer from the console\n");
 	}
 }
 
@@ -551,6 +559,15 @@ void Execute()
 			}
 		}
 	}
+
+	else if(f == 3 && read_help == 108)
+	{
+		printf("EXECUTE: Enter the integer input\n");
+		int input;
+		scanf("%d", &input);
+		result = input;
+		R[0] = result;
+	}
 }
 
 //Memory: Instructions that require memory are nvolved in this stage, and are able to use memory via this method
@@ -614,8 +631,11 @@ void Write_Back()
 		}
 		break;
 		case 3:
-		printf("EXIT:\n");
-		swi_exit();
+		if(read_help != 108)
+		{
+			printf("EXIT:\n");
+			swi_exit();
+		}
 		break;
 	}
 	printf("\n");
